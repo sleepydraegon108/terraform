@@ -1,0 +1,31 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if it's not 'main'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.3.0  # Specify the Terraform version you want to use
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AKIA45Y2RYGGLUH5Q5FJ }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.ZW3UXTUQi21B+idYEOcvrTrNJaSeYftL4MHFBUab }}
