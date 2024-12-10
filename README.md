@@ -73,11 +73,3 @@ This project provisions the following resources:
 
 - Ensure your AWS credentials are properly configured before running Terraform commands.
 - The CloudFront distribution URL will look like: `https://xxxxxxxx.cloudfront.net`.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Contact
-
-For questions or feedback, feel free to reach out!
