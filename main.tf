@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "static_website" {
-  bucket = "terraross"
+  bucket = "terraross2"
 }
 
 resource "aws_s3_object" "index" {
