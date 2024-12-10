@@ -15,21 +15,10 @@ resource "aws_s3_bucket" "static_website" {
   bucket = "terraross"
 }
 
-resource "aws_s3_bucket_acl" "private_acl" {
-  bucket = aws_s3_bucket.static_website.id
-  acl    = "private"
-}
-
 resource "aws_s3_object" "index" {
   bucket = aws_s3_bucket.static_website.bucket
   key    = "index.html"
-  source = "path/to/your/index.html"
-}
-
-resource "aws_s3_object" "error" {
-  bucket = aws_s3_bucket.static_website.bucket
-  key    = "error.html"
-  source = "path/to/your/error.html"
+  source = "index.html"
 }
 
 resource "aws_cloudfront_origin_access_identity" "cdn" {
