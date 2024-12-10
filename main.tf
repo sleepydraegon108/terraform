@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "static_website" {
-  bucket = "my-unique-bucket-name-12345"
+  bucket = "terraross"
 }
 
 resource "aws_s3_bucket_acl" "private_acl" {
