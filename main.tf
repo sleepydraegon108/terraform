@@ -26,12 +26,6 @@ resource "aws_s3_object" "index" {
   source = "index.html"  
 }
 
-resource "aws_s3_object" "error" {
-  bucket = aws_s3_bucket.static_website.bucket
-  key    = "error.html"  
-  source = "path/to/your/error.html"  
-}
-
 resource "aws_cloudfront_origin_access_identity" "cdn" {
   comment = "Origin Access Identity for S3 bucket"
 }
