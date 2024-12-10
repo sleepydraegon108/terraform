@@ -3,25 +3,36 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "static_website" {
-  bucket = "terraformross"  # Your specified bucket name
+  bucket = "terraformross2"  # Change to a unique bucket name
   acl    = "private"  # Keep the bucket private
+}
 
-  website {
-    index_document = "index.html"
-    error_document = "error.html"  # Optional: specify an error document
+resource "aws_s3_bucket_website_configuration" "website" {
+  bucket = aws_s3_bucket.static_website.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "error.html"  # Optional: specify an error document
   }
 }
 
-resource "aws_s3_bucket_object" "index" {
+resource "aws_s3_object" "index" {
   bucket = aws_s3_bucket.static_website.bucket
   key    = "index.html"
   source = "index.html"  # Path to your index.html file
 }
 
-resource "aws_s3_bucket_object" "error" {
+resource "aws_s3_object" "error" {
   bucket = aws_s3_bucket.static_website.bucket
   key    = "error.html"  # Optional: specify an error document
   source = "path/to/your/error.html"  # Change to the path of your error.html file if you have one
+}
+
+resource "aws_cloudfront_origin_access_identity" "cdn" {
+  comment = "Origin Access Identity for S3 bucket"
 }
 
 resource "aws_cloudfront_distribution" "cdn" {
@@ -29,7 +40,6 @@ resource "aws_cloudfront_distribution" "cdn" {
     domain_name = aws_s3_bucket.static_website.bucket_regional_domain_name
     origin_id   = "S3Origin"
 
-    # Restrict access to the S3 bucket
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.cdn.iam_arn
     }
@@ -58,15 +68,18 @@ resource "aws_cloudfront_distribution" "cdn" {
     cloudfront_default_certificate = true
   }
 
-  # Optional: Set the price class
+  # Price class
   price_class = "PriceClass_All"
 
-  # Optional: Set the comment
-  comment = "CloudFront distribution for terraformross bucket"
-}
+  # Restrictions block (optional, but required if you want to restrict access)
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"  # Change this if you want to restrict access by geography
+    }
+  }
 
-resource "aws_cloudfront_origin_access_identity" "cdn" {
-  comment = "Origin Access Identity for S3 bucket"
+  # Optional: Set the comment
+  comment = "CloudFront distribution for my-unique-bucket-name-12345 bucket"
 }
 
 output "cloudfront_url" {
