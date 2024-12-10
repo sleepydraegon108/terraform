@@ -11,14 +11,6 @@ provider "aws" {
   region = "us-east-2"  # Set to us-east-2
 }
 
-resource "aws_s3_bucket" "static_website" {
-  bucket = "terraformross2"  # Change to a unique bucket name
-  acl    = "private"  # Keep the bucket private
-}
-
-resource "aws_s3_bucket_website_configuration" "website" {
-  bucket = aws_s3_bucket.static_website.id
-
   index_document {
     suffix = "index.html"
   }
